@@ -226,15 +226,6 @@
                             <i class="fas fa-magic mr-2"></i>
                             브리핑 양식 생성하기
                         </button>
-                        <button type="button" id="saveFileButton" class="w-full bg-blue-500 text-white py-3 px-6 rounded-md hover:bg-blue-600 transition duration-300 font-semibold">
-                            <i class="fas fa-download mr-2"></i>
-                            데이터 파일로 저장
-                        </button>
-                        <label for="loadFile" class="w-full bg-gray-500 text-white py-3 px-6 rounded-md hover:bg-gray-600 transition duration-300 font-semibold text-center cursor-pointer">
-                            <i class="fas fa-upload mr-2"></i>
-                            데이터 파일 불러오기
-                            <input type="file" id="loadFile" accept=".json" class="hidden">
-                        </label>
                         <button type="button" id="clearFormButton" class="w-full bg-gray-300 text-gray-800 py-3 px-6 rounded-md hover:bg-gray-400 transition duration-300 font-semibold">
                             <i class="fas fa-trash-alt mr-2"></i>
                             양식 초기화
@@ -546,8 +537,6 @@
                 });
             });
 
-            document.getElementById('saveFileButton').addEventListener('click', downloadDataFile);
-            document.getElementById('loadFile').addEventListener('change', uploadDataFile);
             document.getElementById('clearFormButton').addEventListener('click', clearForm);
             document.getElementById('addPropertyButton').addEventListener('click', addPropertyField);
             document.getElementById('documentForm').addEventListener('submit', function(e) {
