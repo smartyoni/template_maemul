@@ -191,38 +191,28 @@
                             <i class="fas fa-info-circle"></i> 미팅 개요
                         </h3>
                         <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="clientName">고객사/고객명*</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" for="clientName">고객명*</label>
                             <input type="text" id="clientName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: (주)한빛소프트 김지민 고객님">
-                        </div>
-                        <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="meetingPurpose">미팅 목적*</label>
-                            <input type="text" id="meetingPurpose" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 신규 프로젝트 제안 및 협업 방안 논의">
                         </div>
                         <div class="input-group">
                             <label class="block text-sm font-medium text-gray-700 mb-2" for="meetingDate">미팅 날짜*</label>
                             <input type="date" id="meetingDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-                        <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="attendees">참석자</label>
-                            <input type="text" id="attendees" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 우리 팀(홍길동 팀장, 김민준), 고객사(박서준 이사, 이보영 차장)">
-                        </div>
                     </div>
                     <div class="border-b border-gray-200 pb-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
-                            <i class="fas fa-clipboard-list"></i> 논의 내용 및 결과
+                            <i class="fas fa-home"></i> 미팅진행 매물정보
                         </h3>
-                        <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="discussionSummary">주요 논의 내용 요약*</label>
-                            <textarea id="discussionSummary" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 고객사의 현재 당면 과제, 제안한 솔루션의 핵심 기능과 기대 효과, 예상 견적 및 일정"></textarea>
+                        <div id="propertyFields">
+                            <div class="input-group property-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="property1">매물정보 1*</label>
+                                <textarea id="property1" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 강남구 아파트 - 3룸, 전세 3억, 관리비 10만원"></textarea>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="decisionsAndAgreements">결정 사항 및 합의 내용*</label>
-                            <textarea id="decisionsAndAgreements" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 내부 검토 후 다음 주까지 회신하기로 합의, 추가 자료(포트폴리오) 요청, 다음 미팅 일정 잠정 확정"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label class="block text-sm font-medium text-gray-700 mb-2" for="nextSteps">다음 액션 플랜 (Next Steps)*</label>
-                            <textarea id="nextSteps" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: (담당자) 김민준 - 요청 자료 정리 및 발송 (~금요일), (담당자) 홍길동 팀장 - 다음 미팅 준비 및 일정 조율"></textarea>
-                        </div>
+                        <button type="button" id="addPropertyButton" class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300 font-semibold mb-4">
+                            <i class="fas fa-plus mr-2"></i>
+                            매물정보 추가
+                        </button>
                     </div>
                     <div class="border-b border-gray-200 pb-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
@@ -382,31 +372,66 @@
             event.target.value = '';
         }
 
+        let propertyFieldCount = 1;
+
+        function addPropertyField() {
+            propertyFieldCount++;
+            const propertyFields = document.getElementById('propertyFields');
+            const newField = document.createElement('div');
+            newField.className = 'input-group property-field';
+            newField.innerHTML = `
+                <label class="block text-sm font-medium text-gray-700 mb-2" for="property${propertyFieldCount}">매물정보 ${propertyFieldCount}*</label>
+                <div class="flex gap-2">
+                    <textarea id="property${propertyFieldCount}" rows="3" required class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="예: 강남구 아파트 - 3룸, 전세 3억, 관리비 10만원"></textarea>
+                    <button type="button" class="remove-property-btn bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 transition duration-300" onclick="removePropertyField(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            propertyFields.appendChild(newField);
+            
+            // Add event listeners for the new field
+            const newTextarea = newField.querySelector('textarea');
+            newTextarea.addEventListener('input', () => {
+                saveFormDataToLocalStorage();
+                generateDocument();
+            });
+            newTextarea.addEventListener('change', () => {
+                saveFormDataToLocalStorage();
+                generateDocument();
+            });
+        }
+
+        function removePropertyField(button) {
+            const fieldToRemove = button.closest('.property-field');
+            fieldToRemove.remove();
+            saveFormDataToLocalStorage();
+            generateDocument();
+        }
+
         function generateDocument() {
             const clientNameInput = document.getElementById('clientName');
-            const meetingPurposeInput = document.getElementById('meetingPurpose');
-            const discussionSummaryInput = document.getElementById('discussionSummary');
-            const decisionsAndAgreementsInput = document.getElementById('decisionsAndAgreements');
-            const nextStepsInput = document.getElementById('nextSteps');
             const additionalCommentsInput = document.getElementById('additionalComments');
             const meetingDateInput = document.getElementById('meetingDate');
-            const attendeesInput = document.getElementById('attendees');
 
-            const clientName = clientNameInput.value || clientNameInput.placeholder || '고객사/고객명';
-            const meetingPurpose = meetingPurposeInput.value || meetingPurposeInput.placeholder || '미팅 목적';
-            const discussionSummary = discussionSummaryInput.value || discussionSummaryInput.placeholder || '논의 내용 요약';
-            const decisionsAndAgreements = decisionsAndAgreementsInput.value || decisionsAndAgreementsInput.placeholder || '결정 사항 및 합의 내용';
-            const nextSteps = nextStepsInput.value || nextStepsInput.placeholder || '다음 액션 플랜';
-            const additionalComments = additionalCommentsInput.value || additionalCommentsInput.placeholder || '';
+            const clientName = clientNameInput.value || '고객명';
+            const additionalComments = additionalCommentsInput.value || '';
             const meetingDate = meetingDateInput.value;
-            const attendees = attendeesInput.value || attendeesInput.placeholder || '';
+
+            // Get all property information
+            const propertyFields = document.querySelectorAll('.property-field textarea');
+            const propertyInfos = [];
+            propertyFields.forEach((field, index) => {
+                const value = field.value || field.placeholder || `매물정보 ${index + 1}`;
+                propertyInfos.push(value);
+            });
 
             const root = document.documentElement;
             let themeColor = '#2563EB';
             let themeColorLight = '#BFDBFE';
             let themeColorStart = '#3B82F6';
             let themeColorEnd = '#2563EB';
-            let headerBgImage = "url('https://via.placeholder.com/300x150/60A5FA/FFFFFF?text=Briefing')";
+            let headerBgImage = "url('https://via.placeholder.com/300x150/60A5FA/FFFFFF?text=Property')";
             let headerBgPosition = 'right 15% bottom 5%';
             let headerBgSize = 'auto 90%';
             let headerBgOpacity = 0.15;
@@ -422,12 +447,24 @@
             root.style.setProperty('--header-bg-opacity', headerBgOpacity);
             root.style.setProperty('--header-mix-blend-mode', headerMixBlendMode);
 
+            let propertyHtml = '';
+            propertyInfos.forEach((propertyInfo, index) => {
+                propertyHtml += `
+                    <div class="material-section">
+                        <h2 class="section-heading">
+                            <i class="fas fa-home"></i>
+                            매물정보 ${index + 1}
+                        </h2>
+                        <p class="text-gray-700 leading-relaxed">${propertyInfo.replace(/\n/g, '</p><p class="text-gray-700 leading-relaxed mt-2">')}</p>
+                    </div>
+                `;
+            });
+
             let generatedHtml = `
                 <div class="fade-in">
                     <div class="gradient-header-bg text-center mb-8">
                         <h1 class="text-4xl font-bold mb-2">미팅 후 고객 브리핑</h1>
                         <p class="text-xl opacity-90">${clientName} 미팅</p>
-                        <p class="text-lg mt-4 opacity-80">${meetingPurpose}</p>
                     </div>
                     <div class="material-section">
                         <h2 class="section-heading">
@@ -436,30 +473,10 @@
                         </h2>
                         <div class="text-gray-700 leading-relaxed space-y-2">
                             <p><strong>일시:</strong> ${meetingDate ? new Date(meetingDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '미팅 날짜'}</p>
-                            ${attendees ? `<p><strong>참석자:</strong> ${attendees}</p>` : ''}
+                            <p><strong>고객명:</strong> ${clientName}</p>
                         </div>
                     </div>
-                    <div class="material-section">
-                        <h2 class="section-heading">
-                            <i class="fas fa-clipboard-check"></i>
-                            주요 논의 내용
-                        </h2>
-                        <p class="text-gray-700 leading-relaxed">${discussionSummary.replace(/\n/g, '</p><p class="text-gray-700 leading-relaxed mt-2">')}</p>
-                    </div>
-                    <div class="material-section">
-                        <h2 class="section-heading">
-                            <i class="fas fa-hands-helping"></i>
-                            결정 및 합의 사항
-                        </h2>
-                        <p class="text-gray-700 leading-relaxed">${decisionsAndAgreements.replace(/\n/g, '</p><p class="text-gray-700 leading-relaxed mt-2">')}</p>
-                    </div>
-                    <div class="material-section">
-                        <h2 class="section-heading">
-                            <i class="fas fa-running"></i>
-                            다음 액션 플랜
-                        </h2>
-                        <p class="text-gray-700 leading-relaxed">${nextSteps.replace(/\n/g, '</p><p class="text-gray-700 leading-relaxed mt-2">')}</p>
-                    </div>
+                    ${propertyHtml}
                     ${additionalComments ? `
                     <div class="material-section">
                         <h2 class="section-heading">
@@ -515,6 +532,7 @@
             document.getElementById('saveFileButton').addEventListener('click', downloadDataFile);
             document.getElementById('loadFile').addEventListener('change', uploadDataFile);
             document.getElementById('clearFormButton').addEventListener('click', clearForm);
+            document.getElementById('addPropertyButton').addEventListener('click', addPropertyField);
             document.getElementById('documentForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 generateDocument();
